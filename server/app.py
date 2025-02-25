@@ -18,13 +18,11 @@ def print_string(parameter):
 def count(parameter):
     # Generate numbers from 0 to parameter - 1 (inclusive), ensuring trailing newline
     numbers = "\n".join(str(i) for i in range(parameter)) + "\n"
-    return numbers
+    return numbers, 200
 
 # Route to perform math operations
 @app.route("/math/<int:num1>/<string:operation>/<int:num2>")
 def math(num1, operation, num2):
-    result = None
-    
     if operation == "+":
         result = num1 + num2
     elif operation == "-":
@@ -32,16 +30,14 @@ def math(num1, operation, num2):
     elif operation == "*":
         result = num1 * num2
     elif operation == "div":
-        if num2 != 0:
-            result = num1 / num2
-        else:
-            return "Error: Division by zero is undefined."
-    elif operation == "%":
+        result = num1 / num2 if num2 != 0 else "Error: Division by zero"
+
+    elif operation == '%':
         result = num1 % num2
     else:
-        return "Error: Invalid operation. Use +, -, *, div, or %."
+        return "Invalid Operation."
 
-    return str(result)
+    return str(result), 200
 
 
 if __name__ == "__main__":
